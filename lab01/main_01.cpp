@@ -3,6 +3,10 @@
 #include <utility>
 #include <sstream>
 #include <string>
+#include <fstream>
+#include <map>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -34,8 +38,12 @@ void feladat8();
 string capitalizeWords(string text);
 void feladat9();
 
+vector<pair<string, int>> countWordsFromFile(ifstream &fin);
+string getNthMostCommonWord(vector<pair<string, int>> words, int n);
+void extraFeladat();
+
 int main() {
-    feladat9();
+    extraFeladat();
     return 0;
 }
 
@@ -225,4 +233,47 @@ void feladat9() {
         cout << capitalizeWords(text) << endl;
     }
 }
+
+vector<pair<string, int>> countWordsFromFile(ifstream &fin) {
+    vector<pair<string, int>> wordsVec;
+    map<string, int> wordsMap;
+    string text;
+    while (fin >> text) {
+        if (!wordsMap.count(text))
+            wordsMap[text] = 1;
+        else
+            wordsMap[text]++;
+    }
+
+    for (auto &it : wordsMap)
+        wordsVec.push_back(it);
+
+    return wordsVec;
+}
+
+bool cmp(pair<string, int>& a, pair<string, int>& b){
+    return a.second > b.second;
+}
+
+string getNthMostCommonWord(vector<pair<string, int>> words, int n) {
+    sort(words.begin(), words.end(), cmp);
+    return words[n - 1].first;
+}
+
+
+void extraFeladat() {
+    ifstream fin("bible.txt");
+    if (!fin.is_open()) {
+        cout << "File failed to open!";
+        fin.close();
+        return;
+    }
+
+    int n = 1;
+    vector<pair<string, int>> words = countWordsFromFile(fin);
+    cout << "The " << n << "th most common world is: " << getNthMostCommonWord(words, n) << endl;
+
+    fin.close();
+}
+
 
