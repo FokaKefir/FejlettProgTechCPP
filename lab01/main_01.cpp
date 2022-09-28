@@ -265,7 +265,6 @@ void extraFeladat() {
     ifstream fin("bible.txt");
     if (!fin.is_open()) {
         cout << "File failed to open!";
-        fin.close();
         return;
     }
 
