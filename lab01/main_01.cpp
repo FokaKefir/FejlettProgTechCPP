@@ -256,7 +256,7 @@ bool cmp(pair<string, int>& a, pair<string, int>& b){
 }
 
 string getNthMostCommonWord(vector<pair<string, int>> words, int n) {
-    sort(words.begin(), words.end(), cmp);
+    sort(words.begin(), words.end(), cmpPoints);
     return words[n - 1].first;
 }
 

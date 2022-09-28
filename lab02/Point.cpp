@@ -19,5 +19,5 @@ int Point::getY() const {
 }
 
 void Point::print() const {
-    std::cout << "(" << this->x << ", " << this->y << ")";
+    std::cout << "(" << this->x << ", " << this->y << ") ";
 }
