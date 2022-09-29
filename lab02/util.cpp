@@ -1,7 +1,11 @@
-#include "unit.h"
+#include "util.h"
 
 double distance(const Point &a, const Point &b) {
     return sqrt(pow((a.getY() - b.getY()), 2) + pow((a.getX() - b.getX()), 2));
+}
+
+double distance(pair<Point, Point> points) {
+    return distance(points.first, points.second);
 }
 
 bool isSquare(const Point &a, const Point &b, const Point &c, const Point &d) {
@@ -77,10 +81,85 @@ pair<Point, Point> closestPoints(Point *points, int numPoints) {
             if (dis2 < dis) {
                 cPoints.first = points[i];
                 cPoints.second = points[j];
+                dis = dis2;
             }
         }
     }
     return cPoints;
+}
+
+int cmpX(const void* a, const void* b){
+    Point *p1 = (Point *)a, *p2 = (Point *)b;
+    return (p1->getX() != p2->getX()) ? (p1->getX() - p2->getX()) : (p1->getY() - p2->getY());
+}
+int cmpY(const void* a, const void* b){
+    Point *p1 = (Point *)a,  *p2 = (Point *)b;
+    return (p1->getY() != p2->getY()) ? (p1->getY() - p2->getY()) : (p1->getX() - p2->getX());
+}
+
+pair<Point, Point> rec(Point *xPoints, Point *yPoints, int numPoints) {
+    if (numPoints <= 3)
+        return closestPoints(xPoints, numPoints);
+
+    int mid = numPoints / 2;
+    Point midPoint = xPoints[mid];
+
+    Point yPointsLeft[mid];
+    Point yPointsRight[numPoints - mid];
+    int indLeft = 0, indRight = 0;
+    for (int i = 0; i < numPoints; ++i) {
+        if (yPoints[i].getX() < midPoint.getX() || (yPoints[i].getX() == midPoint.getX() && yPoints[i].getY() < midPoint.getY()) && indLeft < mid)
+            yPointsLeft[indLeft++] = yPoints[i];
+        else
+            yPointsRight[indRight] = yPoints[i];
+    }
+
+    pair<Point, Point> pLeft = rec(xPoints, yPointsLeft, mid);
+    pair<Point, Point> pRight = rec(xPoints + mid, yPointsRight, numPoints - mid);
+    double dLeft = distance(pLeft);
+    double dRight = distance(pRight);
+
+    double dis;
+    pair<Point, Point> pClosest;
+    if (dLeft < dRight) {
+        pClosest = pLeft;
+        dis = dLeft;
+    } else {
+        pClosest = pRight;
+        dis = dRight;
+    }
+
+    Point bandPoints[numPoints];
+    int numBand = 0;
+    for (int i = 0; i < numPoints; ++i) {
+        if (abs(yPoints[i].getX() - midPoint.getX()) < dis)
+            bandPoints[numBand++] = yPoints[i];
+    }
+
+    for (int i = 0; i < numBand; ++i) {
+        for (int j = i + 1; j < min(i + 7, numBand); ++j) {
+            double d = distance(bandPoints[i], bandPoints[j]);
+            if (d < dis) {
+                pClosest = pair<Point, Point>(bandPoints[i], bandPoints[j]);
+                dis = d;
+            }
+        }
+    }
+
+    return pClosest;
+}
+
+pair<Point, Point> closestPointsEffective(Point *points, int numPoints) {
+    Point px[numPoints];
+    Point py[numPoints];
+    for (int i = 0; i < numPoints; ++i) {
+        px[i] = py[i] = points[i];
+    }
+
+    qsort(px, numPoints, sizeof(Point), cmpX);
+    qsort(py, numPoints, sizeof(Point), cmpY);
+
+    return rec(px, py, numPoints);
 }
 
 pair<Point, Point> farthestPoints(Point *points, int numPoints) {
