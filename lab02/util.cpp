@@ -97,7 +97,7 @@ int cmpY(const void* a, const void* b){
     return (p1->getY() != p2->getY()) ? (p1->getY() - p2->getY()) : (p1->getX() - p2->getX());
 }
 
-pair<Point, Point> rec(Point *xPoints, Point *yPoints, int numPoints) {
+pair<Point, Point> recClosest(Point *xPoints, Point *yPoints, int numPoints) {
     if (numPoints <= 3)
         return closestPoints(xPoints, numPoints);
 
@@ -114,8 +114,8 @@ pair<Point, Point> rec(Point *xPoints, Point *yPoints, int numPoints) {
             yPointsRight[indRight] = yPoints[i];
     }
 
-    pair<Point, Point> pLeft = rec(xPoints, yPointsLeft, mid);
-    pair<Point, Point> pRight = rec(xPoints + mid, yPointsRight, numPoints - mid);
+    pair<Point, Point> pLeft = recClosest(xPoints, yPointsLeft, mid);
+    pair<Point, Point> pRight = recClosest(xPoints + mid, yPointsRight, numPoints - mid);
     double dLeft = distance(pLeft);
     double dRight = distance(pRight);
 
@@ -159,7 +159,7 @@ pair<Point, Point> closestPointsEffective(Point *points, int numPoints) {
     qsort(px, numPoints, sizeof(Point), cmpX);
     qsort(py, numPoints, sizeof(Point), cmpY);
 
-    return rec(px, py, numPoints);
+    return recClosest(px, py, numPoints);
 }
 
 pair<Point, Point> farthestPoints(Point *points, int numPoints) {
@@ -178,6 +178,72 @@ pair<Point, Point> farthestPoints(Point *points, int numPoints) {
         }
     }
     return fPoints;
+}
+
+
+pair<Point, Point> recFarther(Point *xPoints, Point *yPoints, int numPoints) {
+    if (numPoints <= 3)
+        return farthestPoints(xPoints, numPoints);
+
+    int mid = numPoints / 2;
+    Point midPoint = xPoints[mid];
+
+    Point yPointsLeft[mid];
+    Point yPointsRight[numPoints - mid];
+    int indLeft = 0, indRight = 0;
+    for (int i = 0; i < numPoints; ++i) {
+        if (yPoints[i].getX() < midPoint.getX() || (yPoints[i].getX() == midPoint.getX() && yPoints[i].getY() < midPoint.getY()) && indLeft < mid)
+            yPointsLeft[indLeft++] = yPoints[i];
+        else
+            yPointsRight[indRight] = yPoints[i];
+    }
+
+    pair<Point, Point> pLeft = recFarther(xPoints, yPointsLeft, mid);
+    pair<Point, Point> pRight = recFarther(xPoints + mid, yPointsRight, numPoints - mid);
+    double dLeft = distance(pLeft);
+    double dRight = distance(pRight);
+
+    double dis;
+    pair<Point, Point> pFarther;
+    if (dLeft > dRight) {
+        pFarther = pLeft;
+        dis = dLeft;
+    } else {
+        pFarther = pRight;
+        dis = dRight;
+    }
+
+    Point bandPoints[numPoints];
+    int numBand = 0;
+    for (int i = 0; i < numPoints; ++i) {
+        if (abs(yPoints[i].getX() - midPoint.getX()) > dis)
+            bandPoints[numBand++] = yPoints[i];
+    }
+
+    for (int i = 0; i < numBand; ++i) {
+        for (int j = i + 1; j < min(i + 7, numBand); ++j) {
+            double d = distance(bandPoints[i], bandPoints[j]);
+            if (d > dis) {
+                pFarther = pair<Point, Point>(bandPoints[i], bandPoints[j]);
+                dis = d;
+            }
+        }
+    }
+
+    return pFarther;
+}
+
+pair<Point, Point> fartherPointsEffective(Point *points, int numPoints) {
+    Point px[numPoints];
+    Point py[numPoints];
+    for (int i = 0; i < numPoints; ++i) {
+        px[i] = py[i] = points[i];
+    }
+
+    qsort(px, numPoints, sizeof(Point), cmpX);
+    qsort(py, numPoints, sizeof(Point), cmpY);
+
+    return recClosest(px, py, numPoints);
 }
 
 bool cmpPoints(const Point &a, const Point &b) {

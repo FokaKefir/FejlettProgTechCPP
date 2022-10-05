@@ -36,4 +36,14 @@ int main() {
     cPointsEff.first.print();
     cPointsEff.second.print();
     cout << distance(cPointsEff) << endl;
+
+    pair<Point, Point> cFarther = farthestPoints(points, n);
+    cFarther.first.print();
+    cFarther.second.print();
+    cout << distance(cFarther) << endl;
+
+    pair<Point, Point> cFartherEff = fartherPointsEffective(points, n);
+    cFartherEff.first.print();
+    cFartherEff.second.print();
+    cout << distance(cFartherEff) << endl;
 }
