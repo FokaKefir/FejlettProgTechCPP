@@ -181,7 +181,7 @@ pair<Point, Point> farthestPoints(Point *points, int numPoints) {
 }
 
 
-pair<Point, Point> recFarther(Point *xPoints, Point *yPoints, int numPoints) {
+pair<Point, Point> recFarthest(Point *xPoints, Point *yPoints, int numPoints) {
     if (numPoints <= 3)
         return farthestPoints(xPoints, numPoints);
 
@@ -198,8 +198,8 @@ pair<Point, Point> recFarther(Point *xPoints, Point *yPoints, int numPoints) {
             yPointsRight[indRight] = yPoints[i];
     }
 
-    pair<Point, Point> pLeft = recFarther(xPoints, yPointsLeft, mid);
-    pair<Point, Point> pRight = recFarther(xPoints + mid, yPointsRight, numPoints - mid);
+    pair<Point, Point> pLeft = recFarthest(xPoints, yPointsLeft, mid);
+    pair<Point, Point> pRight = recFarthest(xPoints + mid, yPointsRight, numPoints - mid);
     double dLeft = distance(pLeft);
     double dRight = distance(pRight);
 
@@ -233,7 +233,7 @@ pair<Point, Point> recFarther(Point *xPoints, Point *yPoints, int numPoints) {
     return pFarther;
 }
 
-pair<Point, Point> fartherPointsEffective(Point *points, int numPoints) {
+pair<Point, Point> farthestPointsEffective(Point *points, int numPoints) {
     Point px[numPoints];
     Point py[numPoints];
     for (int i = 0; i < numPoints; ++i) {

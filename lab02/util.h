@@ -20,7 +20,7 @@ void printArray(Point* points, int numPoints);
 pair<Point, Point> closestPoints(Point* points, int numPoints);
 pair<Point, Point> closestPointsEffective(Point *points, int numPoints);
 pair<Point, Point> farthestPoints(Point* points, int numPoints);
-pair<Point, Point> fartherPointsEffective(Point *points, int numPoints);
+pair<Point, Point> farthestPointsEffective(Point *points, int numPoints);
 void sortPoints(Point* points, int numPoints);
 Point* farthestPointsFromOrigin(Point* points, int numPoints);
 void deletePoints(Point* points);
