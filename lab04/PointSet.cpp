@@ -10,7 +10,6 @@ PointSet::PointSet(int n) : n(n) {
         Point p(dist(mt), dist(mt));
         if (table[p.getX() + M * p.getY()] == 0) {
             this->points.push_back(p);
-            this->n++;
             table[p.getX() + M * p.getY()] = true;
         }
     }
@@ -19,8 +18,8 @@ PointSet::PointSet(int n) : n(n) {
 }
 
 void PointSet::computeDistances() {
-    for (int i = 0; i < n; ++i) {
-        for (int j = i + 1; j < n; ++j) {
+    for (int i = 0; i < points.size(); ++i) {
+        for (int j = i + 1; j < points.size(); ++j) {
             this->distances.push_back(points[i].distanceTo(points[j]));
         }
     }

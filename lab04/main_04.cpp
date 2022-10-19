@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    int n = 10;
+    int n = 2;
     cout<<"Pontok\tMinTav\t MaxTav\t #tavolsagok\t#kulonbozotavolsagok"<<endl;
     cout<< fixed;
     for( int i= 0; i<12; ++i ){
@@ -16,5 +16,6 @@ int main() {
         cout<<setw(16) << pSet.numDistinctDistances()<<endl;
         n = n << 1;
     }
+    return 0;
 
 }
