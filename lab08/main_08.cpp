@@ -145,27 +145,30 @@ void task8() {
 }
 
 void task9() {
-    const int n = 256;
-    char abc[n] = "";
+    const int n = 'z' - 'a' + 1;
+    char abc[n];
     for (int i = 0; i < n; ++i) {
-        abc[i] = i;
+        abc[i] = i + 'a';
     }
 
-    random_shuffle(abc + 'a', abc + 'z' + 1);
-    random_shuffle(abc + 'A', abc + 'Z' + 1);
-    for (int i = 'a'; i <='z'; ++i) {
-        cout << abc[i];
+    random_shuffle(abc, abc + n);
+
+    int indexes[256] = {0};
+    for (int i = 0; i < n; ++i) {
+        char c = abc[i];
+        char C = c - 'a' + 'A';
+        indexes[c] = i;
+        indexes[C] = i;
+        cout << c << C;
     }
-    for (int i = 'A'; i <='Z'; ++i) {
-        cout << abc[i];
-    }
+
     vector<string> months = {
             "January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December"
     };
     sort(months.begin(), months.end(), [&](const string &a, const string &b){
-        return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end(), [&](char a, char b){
-            return abc[a] < abc[b];
+        return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end(), [&](char c1, char c2){
+            return indexes[c1] < indexes[c2];
         });
     });
     cout << endl;
