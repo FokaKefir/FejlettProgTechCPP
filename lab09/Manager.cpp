@@ -2,7 +2,7 @@
 
 const string Manager::MANAGER_DEPARTMENT = "manager";
 
-Manager::Manager(const string &firstname, const string &lastname, int byear, const string &department) :
+Manager::Manager(const string &firstname, const string &lastname, int byear, const string &department=MANAGER_DEPARTMENT) :
     Employee(firstname, lastname, byear, department) {}
 
 void Manager::addEmployee(Employee* e) {
