@@ -11,7 +11,7 @@ private:
     vector<Employee*> employees;
 public:
     const static string MANAGER_DEPARTMENT;
-    Manager(const string &firstname, const string &lastname, int byear, const string &department);
+    Manager(const string &firstname, const string &lastname, int byear, const string &department=MANAGER_DEPARTMENT);
     void addEmployee(Employee* e);
     void deleteEmployee(int id);
     int numberOfEmployees() const;

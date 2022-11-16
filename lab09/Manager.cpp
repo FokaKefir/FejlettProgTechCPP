@@ -2,7 +2,7 @@
 
 const string Manager::MANAGER_DEPARTMENT = "manager";
 
-Manager::Manager(const string &firstname, const string &lastname, int byear, const string &department=MANAGER_DEPARTMENT) :
+Manager::Manager(const string &firstname, const string &lastname, int byear, const string &department) :
     Employee(firstname, lastname, byear, department) {}
 
 void Manager::addEmployee(Employee* e) {
@@ -25,9 +25,8 @@ int Manager::numberOfEmployees() const {
 void Manager::print(ostream &out) const {
     Employee::print(out);
     cout << ":\n";
-    int ind = 1;
     for(auto emp : this->employees) {
-        out << "\t" << ind <<". ";
+        out << "\t";
         emp->print(out);
         out << endl;
     }

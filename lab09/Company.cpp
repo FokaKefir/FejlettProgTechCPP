@@ -16,8 +16,11 @@ void Company::removeEmployeeFromManager(Manager *manager, Employee *employee) {
 void Company::printAll(ostream &out) const {
     out << "Employees:\n";
     for (auto emp : employees) {
-        out << emp << endl;
+        out << *emp;
+        if (dynamic_cast<Manager*>(emp) == nullptr)
+            out << endl;
     }
+    out << endl;
 }
 
 void Company::printManager(ostream &out) const {
@@ -25,11 +28,12 @@ void Company::printManager(ostream &out) const {
     for (auto emp : employees) {
         Manager *manager = dynamic_cast<Manager*>(emp);
         if (manager != nullptr)
-            out << emp << endl;
+            out << *emp;
     }
+    out << endl;
 }
 
-void Company::removeEmployee(int id) {
+void Company::deleteEmployee(int id) {
     for (auto emp : employees) {
         Manager *manager = dynamic_cast<Manager*>(emp);
         if (manager != nullptr)

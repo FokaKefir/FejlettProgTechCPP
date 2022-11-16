@@ -8,7 +8,7 @@ private:
     vector<Employee*> employees;
 public:
     void addEmployee(Employee* e);
-    void removeEmployee(int id);
+    void deleteEmployee(int id);
     void addEmployeeToManager(Manager *manager, Employee* employee);
     void removeEmployeeFromManager(Manager *manager, Employee* employee);
     void printAll(ostream &out) const;

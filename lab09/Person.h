@@ -15,6 +15,7 @@ protected:
 public:
     Person(const string &firstname, const string &lastname, int birthYear);
     virtual void print(ostream &out) const;
+    friend ostream &operator<<(ostream &out, const Person &person);
 };
 
 

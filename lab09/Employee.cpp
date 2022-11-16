@@ -1,6 +1,6 @@
 #include "Employee.h"
 
-int Employee::count = 0;
+int Employee::count = 1;
 
 void Employee::print(ostream &out) const {
     out << id << " ";
