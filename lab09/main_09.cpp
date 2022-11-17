@@ -42,7 +42,10 @@ int main() {
     //company.deleteEmployee(e3->getId());
     //company.printAll(cout);
 
-
+    for (int i = 0; i < 10; ++i) {
+        company.deleteEmployee(emps[i]->getId());
+        delete emps[i];
+    }
 
     return 0;
 }
