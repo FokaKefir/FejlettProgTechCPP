@@ -12,6 +12,7 @@ private:
     string county = "";
     int population = 0;
 public:
+    Settlement();
     Settlement(const string &name, const string &county, int population);
 
     const string &getName() const;

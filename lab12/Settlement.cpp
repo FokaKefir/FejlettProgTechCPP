@@ -3,6 +3,9 @@
 Settlement::Settlement(const string &name, const string &county, int population) :
     name(name), county(county), population(population) {}
 
+Settlement::Settlement() : name(""), county(""), population(0) {}
+
+
 const string &Settlement::getName() const {
     return name;
 }
@@ -28,6 +31,7 @@ void Settlement::setPopulation(int population) {
 }
 
 ostream &operator<<(ostream &os, const Settlement &settlement) {
-    os << settlement.county << " " << settlement.name << " " << settlement.population << "\n";
+    os << settlement.county << " " << settlement.name << " " << settlement.population;
     return os;
 }
+
